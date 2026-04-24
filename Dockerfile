@@ -1,5 +1,12 @@
-FROM jenkins/jenkins:jdk21
+FROM node:20-alpine
 
-USER root
+WORKDIR /usr/src/app
 
-RUN apt-get update && apt-get install -y nodejs npm
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+COPY src ./src
+
+EXPOSE 3000
+
+CMD ["node", "src/server.js"]
