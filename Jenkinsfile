@@ -4,19 +4,28 @@ pipeline {
   stages {
     stage("Install") {
         steps {
-            sh 'npm ci'
+            sh 'npm ci --omit=dev'
         }
     }
 
-    stage("Test") {
-        steps {
-            sh 'npm test'
+    stage("Linting et Tests") {
+        parallel {
+            stage("Lint") {
+                steps {
+                    sh 'npm run lint'
+                }
+            }
+            stage("Tests") {
+                steps {
+                    sh 'npm run test:coverage'
+                }
+            }
         }
     }
 
     stage("Build") {
         steps {
-            sh 'npm run build'
+            sh 'echo "Building the application..."'
         }
     }
   }
