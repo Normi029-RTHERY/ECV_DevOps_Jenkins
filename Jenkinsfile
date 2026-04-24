@@ -23,9 +23,9 @@ pipeline {
         }
     }
 
-    stage("Build") {
+    stage("Build Image") {
         steps {
-            sh 'echo "Building the application..."'
+            sh 'docker build -t jenkins-nodeapp:latest .'
         }
     }
   }
